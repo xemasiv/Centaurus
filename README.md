@@ -1,4 +1,7 @@
 # Centaurus
+
+![Centaurus](https://www.nasa.gov/images/content/60066main_image_feature_181_jw4.jpg)
+
 Highly extendable, context-based web workers.
 
 ### Backstory:
