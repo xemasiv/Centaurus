@@ -5,12 +5,105 @@ Highly extendable, context-based web workers.
 I was looking for a way to do the following:
 
 * Easily instantiate web workers
+
+```
+const centauri = new Centaurus();
+```
+
 * Easily load multiple scripts
+
+```
+let centauriOpts = {
+  workerPath: 'centaurus.worker.js',
+  scriptPaths: [
+    '/worker.pako.js'
+  ]
+};
+centauri.initialize(centauriOpts)
+```
+
 * Easily pass functions for these workers
+
+```
+let centauriOpts = {
+  // ... 
+};
+let centauriFunctions = {
+  sayHello: (context) => {
+    const { resolve, reject } = context;
+    resolve();
+  }
+}
+centauri.initialize(centauriOpts)
+  .then(() => centauri.withFunctions(centauriFunctions))
+```
+
 * Easily call passed functions from web worker itself
-* Easily access function arguments in the web worker
 * Easily turn all web worker functions into promises
+
+```
+let centauriOpts = {
+  // ... 
+};
+let centauriFunctions = {
+  sayHello: (context) => {
+    const { resolve, reject } = context;
+    resolve();
+  }
+}
+centauri.initialize(centauriOpts)
+  .then(() => centauri.withFunctions(centauriFunctions))
+  .then(() => centauri.sayHello())
+```
+
+* Easily access function arguments in the web worker
+
+```
+let centauriOpts = {
+  // ... 
+};
+let centauriFunctions = {
+  sayHello: (context) => {
+    const { name, resolve, reject } = context;
+    console.log('Hello', name, '!');
+    resolve();
+  }
+}
+centauri.initialize(centauriOpts)
+  .then(() => centauri.withFunctions(centauriFunctions))
+  .then(() => centauri.sayHello({ name: 'Xema' ))
+
+// console.log result:
+// Hello Xema !
+```
+
 * Easily chain all actions from web worker
+
+```
+let centauriOpts = {
+  // ... 
+};
+let centauriFunctions = {
+  sayHello: (context) => {
+    const { name, resolve, reject } = context;
+    console.log('Hello', name, '!');
+    resolve();
+  },
+  sayHi: (context) => {
+    const { name, resolve, reject } = context;
+    console.log('Hi', name, '!');
+    resolve();
+  }
+}
+centauri.initialize(centauriOpts)
+  .then(() => centauri.withFunctions(centauriFunctions))
+  .then(() => centauri.sayHello({ name: 'Xema' ))
+  .then(() => centauri.sayHi({ name: 'Siv' ))
+
+// console.log result:
+// Hello Xema !
+// Hi Siv !
+```
 
 Ended up writing this library.
 End of story.
