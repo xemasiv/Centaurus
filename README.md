@@ -14,10 +14,18 @@ const centauri = new Centaurus();
 
 ```
 let centauriOpts = {
+
+  // required
+  // can be served from your domain e.g. '/centaurus.worker.js' or '/libs/go/here/centaurus.worker.js'
+  // can be served from urls e.g. '//unpkg.com/centaurus/dist/centaurus.worker.js'
   workerPath: 'centaurus.worker.js',
+  
+  // optional,
+  // custom scripts or libraries like async / lodash / whatever
   scriptPaths: [
     '/worker.pako.js'
   ]
+  
 };
 centauri.initialize(centauriOpts)
 ```
