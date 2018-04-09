@@ -114,4 +114,5 @@ centauri.initialize(centauriOpts)
 ```
 
 Ended up writing this library.
+
 End of story.
