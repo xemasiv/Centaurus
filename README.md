@@ -119,3 +119,16 @@ centauri.initialize(centauriOpts)
 Ended up writing this library.
 
 End of story.
+
+### Questions
+
+#### What object types can we pass to the Worker?
+
+* https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm
+* TL;DR: Everything else but Functions and Objects with Functions
+
+#### How do you pass my Functions then to the Worker?
+
+* Turn your function to string: Function.toString();
+* Eval it: eval(functionString);
+* Apply args: eval(functionString).apply(self, context);
