@@ -1,0 +1,27 @@
+{
+  "name": "centaurus",
+  "version": "1.0.0",
+  "description": "Highly extendable, context-based web workers.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xemasiv/Centaurus.git"
+  },
+  "keywords": [
+    "web",
+    "workers",
+    "worker",
+    "context",
+    "promise",
+    "promises"
+  ],
+  "author": "xemasiv <xemasiv@gmail.com>",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/xemasiv/Centaurus/issues"
+  },
+  "homepage": "https://github.com/xemasiv/Centaurus#readme"
+}
