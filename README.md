@@ -2,133 +2,40 @@
 
 ![Centaurus](https://www.nasa.gov/images/content/60066main_image_feature_181_jw4.jpg)
 
-Highly extendable, context-based web workers.
+Web worker interface. Simplified.
 
-### Backstory:
-I was looking for a way to do the following:
+```js
+// load up
+const Centaurus = require('centaurus');
 
-* Easily instantiate web workers
+// create worker, pass path to our worker
+let C = new Centaurus('https://unpkg.com/centaurus/dist/centaurus.worker.min.js');
 
-```
-const centauri = new Centaurus();
-```
-
-* Easily load multiple scripts
-
-```
-let centauriOpts = {
-
-  // required
-  // can be served from your domain e.g. '/centaurus.worker.js' or '/libs/go/here/centaurus.worker.js'
-  // can be served from urls e.g. '//unpkg.com/centaurus/dist/centaurus.worker.js'
-  workerPath: 'centaurus.worker.js',
-  
-  // optional,
-  // custom scripts or libraries like async / lodash / whatever
-  scriptPaths: [
-    '/worker.pako.js'
-  ]
-  
-};
-centauri.initialize(centauriOpts)
-```
-
-* Easily pass functions for these workers
-
-```
-let centauriOpts = {
-  // ... 
-};
-let centauriFunctions = {
-  sayHello: (context) => {
-    const { resolve, reject } = context;
-    resolve();
-  }
-}
-centauri.initialize(centauriOpts)
-  .then(() => centauri.withFunctions(centauriFunctions))
+// load umd scripts, be it lodash, whatever.
+C.loadScripts(
+  'https://unpkg.com/pako/dist/pako.min.js',
+  'https://unpkg.com/lodash/lodash.min.js'
+)
+  .then(() => C.registerFunctions({
+    saySomething: (resolve, reject, sayWhat) => {
+      console.log(sayWhat);
+      resolve();
+    },
+    checkMyImports: (resolve, reject, param1) => {
+      console.log(param1);
+      console.log('pako:', pako);
+      console.log('lodash:', _);
+      resolve(Boolean(pako) && Boolean(_));
+    }
+  }))
+  .then(() => C.saySomething('Anyeonghaseyo!'))
+  .then(() => C.checkMyImports('is pako and lodash found?').then(console.log))
+  .catch(console.error);
 ```
 
-* Easily call passed functions from web worker itself
-* Easily turn all web worker functions into promises
-
-```
-let centauriOpts = {
-  // ... 
-};
-let centauriFunctions = {
-  sayHello: (context) => {
-    const { resolve, reject } = context;
-    resolve();
-  }
-}
-centauri.initialize(centauriOpts)
-  .then(() => centauri.withFunctions(centauriFunctions))
-  .then(() => centauri.sayHello())
-```
-
-* Easily access function arguments in the web worker
-
-```
-let centauriOpts = {
-  // ... 
-};
-let centauriFunctions = {
-  sayHello: (context) => {
-    const { name, resolve, reject } = context;
-    console.log('Hello', name, '!');
-    resolve();
-  }
-}
-centauri.initialize(centauriOpts)
-  .then(() => centauri.withFunctions(centauriFunctions))
-  .then(() => centauri.sayHello({ name: 'Xema' ))
-
-// console.log result:
-// Hello Xema !
-```
-
-* Easily chain all actions from web worker
-
-```
-let centauriOpts = {
-  // ... 
-};
-let centauriFunctions = {
-  sayHello: (context) => {
-    const { name, resolve, reject } = context;
-    console.log('Hello', name, '!');
-    resolve();
-  },
-  sayHi: (context) => {
-    const { name, resolve, reject } = context;
-    console.log('Hi', name, '!');
-    resolve();
-  }
-}
-centauri.initialize(centauriOpts)
-  .then(() => centauri.withFunctions(centauriFunctions))
-  .then(() => centauri.sayHello({ name: 'Xema' ))
-  .then(() => centauri.sayHi({ name: 'Siv' ))
-
-// console.log result:
-// Hello Xema !
-// Hi Siv !
-```
-
-Ended up writing this library.
-
-End of story.
-
-### Questions
+## Notes
 
 #### What object types can we pass to the Worker?
 
 * https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm
-* TL;DR: Everything else but Functions and Objects with Functions
-
-#### How do you pass my Functions then to the Worker?
-
-* Turn your function to string: Function.toString();
-* Eval it: eval(functionString);
-* Apply args: eval(functionString).apply(self, context);
+* TL;DR: Everything else including Pure Functions and Objects with Pure Functions
