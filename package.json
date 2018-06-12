@@ -1,10 +1,10 @@
 {
   "name": "centaurus",
-  "version": "2.0.0-alpha-2",
+  "version": "2.0.0",
   "description": "Highly extendable, context-based web workers.",
   "main": "src/centaurus.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack --mode=production"
   },
   "repository": {
     "type": "git",
