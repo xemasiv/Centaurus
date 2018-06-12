@@ -72,7 +72,7 @@ class Centaurus {
 }
 
 if (typeof window !== 'undefined') {
-  Window.Centaurus = Centaurus;
+  window.Centaurus = Centaurus;
 } else if (typeof module !== 'undefined') {
   module.exports = Centaurus;
 }
