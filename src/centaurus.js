@@ -1,5 +1,3 @@
-import serialize from 'serialize-javascript';
-
 const ActionTypes = {
   LOAD_SCRIPTS: 0,
   REGISTER_FUNCTION: 1,
@@ -15,7 +13,6 @@ class Centaurus {
     const RejectMap = new Map();
     const worker = new Worker(workerPath);
     worker.onmessage = ({ data }) => {
-      data = eval('(' + data + ')');
       if (data.id) {
         if (data.resolved === true) {
           ResolveMap.get(data.id)(data.parameter);
@@ -28,14 +25,14 @@ class Centaurus {
     };
     this.worker = worker;
     this.send = (something, resolve, reject) => {
-      if (typeof something !== 'object') throw new Error('asd');
+      if (typeof something !== 'object') throw new Error('Centaurus `send` error');
       if (resolve) {
         const id = uuid();
         something.id = id;
         ResolveMap.set(id, resolve);
         RejectMap.set(id, reject);
       }
-      this.worker.postMessage(serialize(something));
+      this.worker.postMessage(something);
     };
   }
   loadScripts (...scripts) {

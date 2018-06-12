@@ -1,5 +1,3 @@
-import serialize from 'serialize-javascript';
-
 const ActionTypes = {
   LOAD_SCRIPTS: 0,
   REGISTER_FUNCTION: 1,
@@ -8,16 +6,13 @@ const ActionTypes = {
 
 const LocalFunctions = {};
 
-const send = (something) => postMessage(serialize(something));
-
 self.addEventListener('message', ({ data }) => {
-  data = eval('(' + data + ')');
-  let resolve = (parameter) => send({
+  let resolve = (parameter) => postMessage({
     id: data.id,
     resolved: true,
     parameter
   });
-  let reject = (parameter) => send({
+  let reject = (parameter) => postMessage({
     id: data.id,
     parameter
   });

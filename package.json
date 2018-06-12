@@ -1,6 +1,6 @@
 {
   "name": "centaurus",
-  "version": "2.2.1",
+  "version": "3.0.0-1",
   "description": "Highly extendable, context-based web workers.",
   "main": "src/centaurus.js",
   "scripts": {
