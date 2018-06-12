@@ -50,11 +50,11 @@ And yes, your other functions can use them also.
 
 ```js
 C.registerFunctions({
-    RegisterSomethinGlobal: (resolve, reject, sayWhat) => {
+    RegisterSomethinGlobal: (resolve, reject) => {
       self.name = 'xemasiv';
       resolve();
     },
-    UseThatGlobal: (resolve, reject, sayWhat) => {
+    UseThatGlobal: (resolve, reject) => {
       console.log(name);
       resolve();
     }
