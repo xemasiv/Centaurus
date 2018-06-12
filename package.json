@@ -1,6 +1,6 @@
 {
   "name": "centaurus",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "Highly extendable, context-based web workers.",
   "main": "src/centaurus.js",
   "scripts": {
@@ -19,7 +19,7 @@
     "promises"
   ],
   "author": "xemasiv <xemasiv@gmail.com>",
-  "license": "Unlicense",
+  "license": "CC-BY-4.0",
   "bugs": {
     "url": "https://github.com/xemasiv/Centaurus/issues"
   },

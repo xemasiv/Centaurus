@@ -22,20 +22,64 @@ C.loadScripts(
       resolve();
     },
     checkMyImports: (resolve, reject, param1) => {
-      console.log(param1);
+      console.log(param1, Boolean(pako) && Boolean(_));
       console.log('pako:', pako);
       console.log('lodash:', _);
-      resolve(Boolean(pako) && Boolean(_));
+      resolve();
     }
   }))
   .then(() => C.saySomething('Anyeonghaseyo!'))
-  .then(() => C.checkMyImports('is pako and lodash found?').then(console.log))
+  .then(() => C.checkMyImports('is pako and lodash found?'))
   .catch(console.error);
 ```
 
 ## Notes
 
-#### What object types can we pass to the Worker?
+#### How does it work?
 
-* https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm
-* TL;DR: Everything else including Pure Functions and Objects with Pure Functions
+* All `main-thread` to `worker-thread` communications use promises.
+* UUIDv4 & Maps are used to identify incoming & outgoing messages.
+* `serialize-javascript` is used to serialize all messages.
+
+#### How do I create global variable assignments within the worker?
+
+Yes. Just assign `self.whatever` inside your functions.
+
+And yes, your other functions can use them also.
+
+```js
+C.registerFunctions({
+    RegisterSomethinGlobal: (resolve, reject, sayWhat) => {
+      self.name = 'xemasiv';
+      resolve();
+    },
+    UseThatGlobal: (resolve, reject, sayWhat) => {
+      console.log(name);
+      resolve();
+    }
+  })
+  .then(() => C.RegisterSomethinGlobal())
+  .then(() => C.UseThatGlobal())
+  .catch(console.error);
+```
+
+#### Can I pass parameters?
+
+Yes, please see the top-most example.
+
+#### Can I return results?
+
+Oh yes you can, you're unstoppable.
+
+#### What types can we pass to the Worker?
+
+* Everything here @ https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm
+
+## License
+
+Attribution 4.0 International (CC BY 4.0)
+
+* https://creativecommons.org/licenses/by/4.0/
+* https://creativecommons.org/licenses/by/4.0/legalcode.txt
+
+![cc](https://creativecommons.org/images/deed/cc_blue_x2.png) ![by](https://creativecommons.org/images/deed/attribution_icon_blue_x2.png)
