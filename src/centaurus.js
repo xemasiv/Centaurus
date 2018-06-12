@@ -69,6 +69,9 @@ class Centaurus {
     });
     return Promise.all(promises);
   }
+  terminate () {
+    this.worker.terminate();
+  }
 }
 
 if (typeof window !== 'undefined') {

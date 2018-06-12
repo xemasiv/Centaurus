@@ -30,6 +30,7 @@ C.loadScripts(
   }))
   .then(() => C.saySomething('Anyeonghaseyo!'))
   .then(() => C.checkMyImports('is pako and lodash found?'))
+  .then(() => C.terminate())
   .catch(console.error);
 ```
 
